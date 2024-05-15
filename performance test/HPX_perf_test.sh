@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LOCALITIES=( 4 8 20 40 ) 
-# 指定包含可执行文件的目录
+
 executables_directory="exec1106_forall"
 
 # Loop over the specified core counts
