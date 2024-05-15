@@ -1,0 +1,46 @@
+
+
+chuanqiu@rostam1:/work/chuanqiu/zzzzzzzzzzsimulation/mybuild$ srun -p medusa -N 1 --pty /bin/bash -l
+
+module load gcc/12.2.0 cmake/3.23.2 git openmpi
+
+chuanqiu@medusa00:/work/chuanqiu/zzzzzzzzzzsimulation/mybuild$ git clone https://github.com/spack/spack.git 
+source spack/share/spack/setup-env.sh          
+spack env create qenv
+spack env activate -p qenv  
+
+chuanqiu@medusa00:/work/chuanqiu/zzzzzzzzzzsimulation/mybuild$ spack add flecsi@2.2 backend=mpi
+chuanqiu@medusa00:/work/chuanqiu/zzzzzzzzzzsimulation/mybuild$ spack install
+
+[myenv] chuanqiu@medusa00:/work/chuanqiu/zzzzzzzzzzsimulation/mybuild$ cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/work/chuanqiu/zzzzzzzzzzsimulation_multi/mybuild/.spack-env/view -DFleCSI_DIR=/work/chuanqiu/zzzzzzzzzzsimulation_multi/mybuild/.spack-env/view/lib64/cmake/FleCSI ..
+
+[myenv] chuanqiu@medusa00:/work/chuanqiu/zzzzzzzzzzsimulation/mybuild$ make
+
+[myenv] chuanqiu@medusa00:/work/chuanqiu/zzzzzzzzzzsimulation/mybuild$ mpirun -n 1 ./euler1D
+
+////////////////// rebuild
+
+
+chuanqiu@rostam1:/work/chuanqiu/zzzzzzzzzzsimulation/mybuild$ srun -p medusa -N 1 --pty /bin/bash -l
+module load gcc/12.2.0 cmake/3.23.2 git 
+
+chuanqiu@rostam1:/work/chuanqiu/zzzzzzzzzzsimulation/mybuild$ source spack/share/spack/setup-env.sh     
+chuanqiu@medusa00:/work/chuanqiu/zzzzzzzzzzsimulation/mybuild$ spack env activate -p myenv   // or spack env activate -p qenv 
+
+[myenv] chuanqiu@medusa00:/work/chuanqiu/zzzzzzzzzzsimulation/mybuild$ make
+
+
+
+//xxxxx
+hpx 
+
+chuanqiu@rostam1:/work/chuanqiu/zzzzzzzzzzsimulation/mybuild$ srun -p medusa -N 1 --pty /bin/bash -l
+
+module load gcc/12.2.0 cmake/3.23.2 git openmpi
+
+chuanqiu@medusa00:/work/chuanqiu/zzzzzzzzzzsimulation/mybuild$ git clone https://github.com/spack/spack.git 
+source spack/share/spack/setup-env.sh          
+spack env create hpxenv
+spack env activate -p hpxenv 
+
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/work/chuanqiu/927testflecsi/buildflecsi/.spack-env/view -DFleCSI_DIR=/work/chuanqiu/927testflecsi/buildflecsi/.spack-env/view/lib64/cmake/FleCSI -DHPX_DIR=/work/chuanqiu/927testflecsi/buildflecsi/.spack-env/view/lib64/cmake/HPX ..
