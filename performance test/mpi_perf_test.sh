@@ -2,7 +2,6 @@
 
 localities=(2 4 8 16 24 32 40)
 
-# 指定包含可执行文件的目录
 executables_directory="newexec"
 
 for locality in "${localities[@]}"; do
